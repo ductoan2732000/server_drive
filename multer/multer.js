@@ -11,5 +11,6 @@ let storage = multer.diskStorage({
   },
 });
 let upload = multer({ storage });
-module.exports = upload;
+let saveFile = upload.array("file");
+module.exports = saveFile;
 
