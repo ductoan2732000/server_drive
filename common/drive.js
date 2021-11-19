@@ -37,8 +37,37 @@ async function uploadFile(filePath, nameFile, mimeType) {
         body: fs.createReadStream(file_path),
       },
     });
+    return res;
   } catch (ex) {
     console.log(ex);
+    return null;
   }
 }
-module.exports = {drive, uploadFile};
+async function deleteFile(fileId){
+  try {
+    let res = await drive.files.delete({
+      fileId: fileId
+    })
+    return res;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+}
+async function setFilePuclic(fileId){
+  try {
+    await drive.permissions.create({
+      fileId: fileId,
+      requestBody: {
+        role: 'reader',
+        type: 'anyone'
+      }
+
+    })
+    return true;
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+}
+module.exports = { drive, uploadFile, deleteFile, setFilePuclic };
